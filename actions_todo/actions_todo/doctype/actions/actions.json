@@ -8,9 +8,10 @@
   "title",
   "date",
   "due_date",
-  "description",
-  "status",
+  "column_break_facr",
   "category",
+  "status",
+  "description",
   "section_break_eime",
   "tasks"
  ],
@@ -63,11 +64,15 @@
    "fieldtype": "Table",
    "label": "Tasks",
    "options": "Action Task"
+  },
+  {
+   "fieldname": "column_break_facr",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-06 00:06:33.503722",
+ "modified": "2024-12-06 00:17:30.520053",
  "modified_by": "Administrator",
  "module": "Actions Todo",
  "name": "Actions",
