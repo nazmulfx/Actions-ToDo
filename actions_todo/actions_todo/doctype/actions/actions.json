@@ -31,12 +31,11 @@
   {
    "fieldname": "due_date",
    "fieldtype": "Date",
-   "label": "Due Date",
-   "reqd": 1
+   "label": "Due Date"
   },
   {
    "fieldname": "description",
-   "fieldtype": "HTML",
+   "fieldtype": "HTML Editor",
    "label": "Description"
   },
   {
@@ -45,8 +44,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "ToDo\nCompleted\nArchive",
-   "reqd": 1
+   "options": "ToDo\nCompleted\nArchive"
   },
   {
    "fieldname": "category",
@@ -72,7 +70,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-06 00:17:30.520053",
+ "modified": "2024-12-06 22:17:00.494343",
  "modified_by": "Administrator",
  "module": "Actions Todo",
  "name": "Actions",

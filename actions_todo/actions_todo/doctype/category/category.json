@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:title",
  "creation": "2024-12-05 23:55:09.343555",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -18,11 +19,17 @@
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-12-05 23:58:18.424865",
+ "links": [
+  {
+   "link_doctype": "Actions",
+   "link_fieldname": "category"
+  }
+ ],
+ "modified": "2024-12-07 14:05:47.501403",
  "modified_by": "Administrator",
  "module": "Actions Todo",
  "name": "Category",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

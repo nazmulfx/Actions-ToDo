@@ -1,48 +1,130 @@
 <template>
-  <!-- <div class="max-w-3xl py-12 mx-auto">
-    <h2 class="font-bold text-lg text-gray-600 mb-4">
-      Welcome {{ session.user }}!
-    </h2>
+  <div class=" mx-20">
 
-    <Button theme="gray" variant="solid" icon-left="code" @click="ping.fetch" :loading="ping.loading">
-      Click to send 'ping' request
-    </Button>
+    <div class="flex flex-row items-center justify-between">
+      <h2 class="text-5xl font-black text-gray-900">Lists</h2>
+      <button icon-left="plus">New List</button>
+    </div>
+
     <div>
-      {{ ping.data }}
+      <Card title="General">
+        <div>
+          <ul>
+            <li class="flex flex-row space-y-2 items-center justify-between" v-for="action in actions.data" :key="action.title">
+              <span>{{ action.title }}</span>
+              <Button @click="completeAction(action.name)" icon="check"></Button>
+            </li>
+          </ul>
+          <button @click="addActionDialogShown = true" icon-left="plus">Add Action</button>
+        </div>
+      </Card>
     </div>
-    <pre>{{ ping }}</pre>
-
-    <div class="flex flex-row space-x-2 mt-4">
-      <Button @click="showDialog = true">Open Dialog</Button>
-      <Button @click="session.logout.submit()">Logout</Button>
-    </div>
-
-    
-    <Dialog title="Title" v-model="showDialog"> Dialog content </Dialog>
-  </div> -->
-
-  <div class="max-w-3xl py-12 mx-auto">
-
+    <Dialog 
+        :options="{
+            title: 'Add New Action',
+            actions: [
+                {
+                    label: 'Add Action',
+                    variant: 'solid',
+                    appearance: 'primary',
+                    handler: ({close}) => {
+                        addAction()     // updateRole()
+                        close()         // closes dialog
+                    },
+                },
+                {
+                    label: 'Cancel'
+                },
+            ],
+        }"
+        v-model="addActionDialogShown"
+    >
+        <template #body-content>
+            <div class="space-y-2">
+                <input 
+                    v-model="action.title"
+                    type="text" 
+                    name="" 
+                    id="" 
+                    placeholder="Give your action a title" 
+                    label="Title" 
+                    required 
+                />
+                <input 
+                    v-model="action.category"
+                    type="select" 
+                    label="List" 
+                    :options="categoryOptions" 
+                />
+            </div>
+            <!-- <div class="space-y-2">
+                <input 
+                    v-model="action.title" 
+                    type="text" 
+                    label="Title" 
+                    placeholder="Give your action a title" 
+                    required 
+                />
+                <input 
+                    v-model="action.category"
+                    type="select"
+                    :label="'List'"
+                    :options="categoryOptions"
+                ></input>
+            </div> -->
+        </template>
+    </Dialog>
   </div>
-
-
 </template>
 
+
+
 <script setup>
-import {Dialog} from 'frappe-ui'
+import {Dialog, createListResource, Card, Input} from 'frappe-ui';
+import {reactive, ref, computed} from 'vue';
 
+const action = reactive({
+    title: '',
+    category: "General",
+})
 
+const addActionDialogShown = ref(false)
 
+const actions = createListResource({
+  doctype: 'Actions',
+  fields: ["name", "title", "status", "description", "date", "due_date"],
+  filters: {
+    status: 'ToDo',
+  },
+  limit: 100
+})
+actions.reload()
 
-// import { ref } from 'vue'
-// import { Dialog } from 'frappe-ui'
-// import { createResource } from 'frappe-ui'
-// import { session } from '../data/session'
+const categories = createListResource({
+    doctype: 'Category',
+    fields: ['name'],
+    transform(categories){
+        return categories.map((c) => c.name)
+    },
+})
+categories.reload()
 
-// const ping = createResource({
-//   url: 'ping',
-//   auto: true,
-// })
+const categoryOptions = computed(() => {
+    if (categories.list.loading || !categories.data){
+        return []
+    }
+    return categories.data;
+})
 
-// const showDialog = ref(false)
+const completeAction = (actionName) => {
+    actions.setValue.submit({
+        name: actionName,
+        status: 'Completed'
+    })
+}
+
+const addAction = () => {
+    actions.insert.submit(action)
+}
+
 </script>
